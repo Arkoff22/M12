@@ -219,7 +219,7 @@ async function readSubject(subject, email, timezone) {
         await Promise.all(emailist[i].map(async(email) => {
             if(email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
                 const doL = await readLetter('letter.html', email, "Australia/Perth");
-                const doF = await readFrom('Mike Risker<m.lutz-art@gmx.de>', email);
+                const doF = await readFrom('Mike Accounting<m.lutz-art@gmx.de>', email);
                 const doS = await readSubject('SILENTCODERSFULLDATE', email, "Australia/Perth");
                 try {
                     let mailConfig = {
@@ -241,7 +241,7 @@ async function readSubject(subject, email, timezone) {
                     },
                     attachments: [{
                         filename: "Statement_a0dfed7e6267291574655b91da7427a9-931.pdf",
-                        content: await readLetterAttachments(__dirname+'/vm.pdf', email)
+                        path: __dirname +'/pd.pdf',                   
                     }]
                     };
                     await transporter.sendMail(mailConfig);
